@@ -20,6 +20,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.euleriatask.R
 import com.example.euleriatask.ui.theme.black
 import com.example.euleriatask.ui.theme.darkBlue
@@ -30,7 +32,7 @@ import com.example.euleriatask.ui.widgets.CustomRoundedButton
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun PauseDialogFragment(viewModel: SelectDurationViewModel = getViewModel()) {
+fun PauseDialogFragment(navController: NavController, viewModel: SelectDurationViewModel = getViewModel()) {
     Column(
         verticalArrangement = Arrangement.spacedBy(55.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -71,6 +73,7 @@ fun PauseDialogFragment(viewModel: SelectDurationViewModel = getViewModel()) {
                 color = red,
                 onClick = {
                     viewModel.cancelSession()
+                    navController.popBackStack()
                 })
         }
     }
@@ -79,5 +82,6 @@ fun PauseDialogFragment(viewModel: SelectDurationViewModel = getViewModel()) {
 @Preview(showBackground = true)
 @Composable
 fun PauseDialogPreview() {
-    PauseDialogFragment()
+    val navController = rememberNavController()
+    PauseDialogFragment(navController)
 }

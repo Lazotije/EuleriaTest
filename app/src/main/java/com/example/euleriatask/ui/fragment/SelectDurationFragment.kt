@@ -23,15 +23,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.euleriatask.R
 import com.example.euleriatask.ui.theme.black
+import com.example.euleriatask.ui.utiils.Utils
 import com.example.euleriatask.ui.viewModel.SelectDurationViewModel
 import com.example.euleriatask.ui.widgets.DurationButton
 import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
-fun SelectDurationFragment(viewModel: SelectDurationViewModel = koinViewModel()) {
+fun SelectDurationFragment(navController: NavController, viewModel: SelectDurationViewModel = koinViewModel()) {
     Column(
         verticalArrangement = Arrangement.spacedBy(113.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -53,12 +55,12 @@ fun SelectDurationFragment(viewModel: SelectDurationViewModel = koinViewModel())
                 textAlign = TextAlign.Center,
             )
         )
-        DurationButtonsRow(viewModel)
+        DurationButtonsRow(navController, viewModel)
     }
 }
 
 @Composable
-fun DurationButtonsRow(viewModel: SelectDurationViewModel) {
+fun DurationButtonsRow(navController: NavController, viewModel: SelectDurationViewModel) {
     Row(
         Modifier
             .fillMaxWidth()
@@ -69,6 +71,7 @@ fun DurationButtonsRow(viewModel: SelectDurationViewModel) {
         for (i in 1..5) {
             DurationButton(i, onClick = {
                 viewModel.startSession(it)
+                navController.navigate(Utils.DIALOG_SCREEN_ROUTE)
             })
         }
     }

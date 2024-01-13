@@ -8,11 +8,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.euleriatask.ui.fragment.PauseDialogFragment
 import com.example.euleriatask.ui.fragment.SelectDurationFragment
 import com.example.euleriatask.ui.theme.EuleriaTaskTheme
+import com.example.euleriatask.ui.utiils.Utils
 
 
 class MainActivity : ComponentActivity() {
@@ -25,19 +32,38 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SelectDurationFragment()
-//                    PauseDialogFragment()
+
+                    val navController = rememberNavController()
+                    MyAppNavHost(navController = navController)
                 }
+            }
+        }
+    }
+
+    @Composable
+    fun MyAppNavHost(navController: NavHostController) {
+        NavHost(navController = navController, startDestination = Utils.FIRST_SCREEN_ROUTE) {
+
+            //Select duration fragment
+            composable(Utils.FIRST_SCREEN_ROUTE) {
+                SelectDurationFragment(navController)
+            }
+
+            //Pause dialog fragment
+            composable(Utils.DIALOG_SCREEN_ROUTE) {
+                PauseDialogFragment(navController)
             }
         }
     }
 }
 
+
 @Preview(showBackground = true, device = Devices.AUTOMOTIVE_1024p)
 @Composable
 fun GreetingPreview() {
     EuleriaTaskTheme {
-        SelectDurationFragment()
+        val navController = rememberNavController()
+        SelectDurationFragment(navController)
 //        PauseDialogFragment()
     }
 }
