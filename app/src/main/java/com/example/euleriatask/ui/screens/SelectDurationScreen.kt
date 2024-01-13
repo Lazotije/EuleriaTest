@@ -62,7 +62,9 @@ fun DurationButtonsRow() {
         verticalAlignment = Alignment.Top,
     ) {
         for (i in 1..5) {
-            DurationButton(i)
+            DurationButton(i, onClick = {
+
+            })
         }
     }
 }

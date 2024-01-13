@@ -30,7 +30,7 @@ import com.example.euleriatask.ui.theme.buttonBlue
 import com.example.euleriatask.ui.theme.white
 
 @Composable
-fun DurationButton(duration: Int) {
+fun DurationButton(duration: Int, onClick: (Int) -> Unit) {
     Box(
         modifier = Modifier
             .border(width = 8.dp, color = buttonBlue, shape = RoundedCornerShape(size = 15.dp))
@@ -79,12 +79,10 @@ fun DurationButton(duration: Int) {
     }
 }
 
-private fun onClick(position: Int) {
-    Log.d("LAZA", "KLIK NA POZICIJU " + position)
-}
-
 @Preview(showBackground = true)
 @Composable
 fun DurationButtonPreview() {
-    DurationButton(duration = 3)
+    DurationButton(duration = 3, onClick = {
+        Log.d("EULERIA_TEST", "KLIK NA POZICIJU " + it)
+    })
 }
