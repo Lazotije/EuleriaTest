@@ -1,6 +1,7 @@
 package com.example.euleriatask.ui.fragment
 
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,12 +22,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.euleriatask.R
 import com.example.euleriatask.ui.theme.black
+import com.example.euleriatask.ui.viewModel.SelectDurationViewModel
 import com.example.euleriatask.ui.widgets.DurationButton
+import org.koin.androidx.compose.koinViewModel
+
 
 @Composable
-fun SelectDurationFragment() {
+fun SelectDurationFragment(viewModel: SelectDurationViewModel = koinViewModel()) {
     Column(
         verticalArrangement = Arrangement.spacedBy(113.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -48,12 +53,12 @@ fun SelectDurationFragment() {
                 textAlign = TextAlign.Center,
             )
         )
-        DurationButtonsRow()
+        DurationButtonsRow(viewModel)
     }
 }
 
 @Composable
-fun DurationButtonsRow() {
+fun DurationButtonsRow(viewModel: SelectDurationViewModel) {
     Row(
         Modifier
             .fillMaxWidth()
@@ -63,7 +68,7 @@ fun DurationButtonsRow() {
     ) {
         for (i in 1..5) {
             DurationButton(i, onClick = {
-
+                viewModel.startSession(it)
             })
         }
     }

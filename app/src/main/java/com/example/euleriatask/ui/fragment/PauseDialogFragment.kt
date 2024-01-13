@@ -25,10 +25,12 @@ import com.example.euleriatask.ui.theme.black
 import com.example.euleriatask.ui.theme.darkBlue
 import com.example.euleriatask.ui.theme.red
 import com.example.euleriatask.ui.theme.white
+import com.example.euleriatask.ui.viewModel.SelectDurationViewModel
 import com.example.euleriatask.ui.widgets.CustomRoundedButton
+import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun PauseDialogFragment() {
+fun PauseDialogFragment(viewModel: SelectDurationViewModel = getViewModel()) {
     Column(
         verticalArrangement = Arrangement.spacedBy(55.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -62,13 +64,13 @@ fun PauseDialogFragment() {
             CustomRoundedButton(text = stringResource(id = R.string.continue_button_txt),
                 color = darkBlue,
                 onClick = {
-
+                    viewModel.resumeSession()
                 })
             CustomRoundedButton(
                 text = stringResource(id = R.string.quit_button_txt),
                 color = red,
                 onClick = {
-
+                    viewModel.cancelSession()
                 })
         }
     }
