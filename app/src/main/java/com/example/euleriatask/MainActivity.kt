@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.euleriatask.ui.screens.SelectDurationScreen
+import com.example.euleriatask.ui.fragment.SelectDurationFragment
 import com.example.euleriatask.ui.theme.EuleriaTaskTheme
 
 
@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SelectDurationScreen()
+                    SelectDurationFragment()
                 }
             }
         }
@@ -35,6 +35,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     EuleriaTaskTheme {
-        SelectDurationScreen()
+        SelectDurationFragment()
+//        PauseDialogFragment()
     }
 }

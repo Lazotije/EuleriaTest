@@ -1,4 +1,4 @@
-package com.example.euleriatask.ui.screens
+package com.example.euleriatask.ui.fragment
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -28,7 +28,7 @@ import com.example.euleriatask.ui.theme.white
 import com.example.euleriatask.ui.widgets.CustomRoundedButton
 
 @Composable
-fun PauseDialogScreen() {
+fun PauseDialogFragment() {
     Column(
         verticalArrangement = Arrangement.spacedBy(55.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -77,5 +77,5 @@ fun PauseDialogScreen() {
 @Preview(showBackground = true)
 @Composable
 fun PauseDialogPreview() {
-    PauseDialogScreen()
+    PauseDialogFragment()
 }

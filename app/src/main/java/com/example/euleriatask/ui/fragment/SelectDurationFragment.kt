@@ -1,4 +1,4 @@
-package com.example.euleriatask.ui.screens
+package com.example.euleriatask.ui.fragment
 
 
 import androidx.compose.foundation.background
@@ -26,7 +26,7 @@ import com.example.euleriatask.ui.theme.black
 import com.example.euleriatask.ui.widgets.DurationButton
 
 @Composable
-fun SelectDurationScreen() {
+fun SelectDurationFragment() {
     Column(
         verticalArrangement = Arrangement.spacedBy(113.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
