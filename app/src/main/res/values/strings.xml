@@ -5,4 +5,7 @@
     <string name="pause">Pause</string>
     <string name="continue_button_txt">CONTINUE</string>
     <string name="quit_button_txt">QUIT</string>
+    <string name="bpm">BPM</string>
+    <string name="heart_rate">HEART RATE</string>
+    <string name="oxygen_saturation">OXYGEN SATURATION</string>
 </resources>

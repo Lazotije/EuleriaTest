@@ -16,6 +16,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.euleriatask.ui.fragment.MonitoringFragment
 import com.example.euleriatask.ui.fragment.PauseDialogFragment
 import com.example.euleriatask.ui.fragment.SelectDurationFragment
 import com.example.euleriatask.ui.theme.EuleriaTaskTheme
@@ -49,6 +50,11 @@ class MainActivity : ComponentActivity() {
                 SelectDurationFragment(navController)
             }
 
+            //Monitoring fragment
+            composable(Utils.MONITORING_SCREEN_ROUTE) {
+                MonitoringFragment(navController)
+            }
+
             //Pause dialog fragment
             composable(Utils.DIALOG_SCREEN_ROUTE) {
                 PauseDialogFragment(navController)
@@ -64,6 +70,5 @@ fun GreetingPreview() {
     EuleriaTaskTheme {
         val navController = rememberNavController()
         SelectDurationFragment(navController)
-//        PauseDialogFragment()
     }
 }

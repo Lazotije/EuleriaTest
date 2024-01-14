@@ -1,6 +1,9 @@
 package com.example.euleriatask.ui.viewModel
 
+import android.os.CountDownTimer
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.euleriatask.data.model.HeartRateOxygenPair
@@ -14,6 +17,14 @@ class SelectDurationViewModel(private val monitoringRepo: MonitoringRepo) : View
     private val _heartRateAndOxygen = MutableStateFlow<HeartRateOxygenPair?>(null)
     val heartRateAndOxygen: StateFlow<HeartRateOxygenPair?> = _heartRateAndOxygen
 
+    private val _navigateEvent = MutableLiveData<Unit>()
+    val navigateEvent: LiveData<Unit> = _navigateEvent
+
+    init {
+        Log.d("LAZA", "INIT SELECT DURATION VIEWMODELA")
+        startMonitoring()
+    }
+
     private fun startMonitoring() {
         viewModelScope.launch {
             monitoringRepo.getHeartRateAndOxygenLevel().collect {
@@ -23,18 +34,24 @@ class SelectDurationViewModel(private val monitoringRepo: MonitoringRepo) : View
     }
 
     fun startSession(minutes: Int) {
-        //when user choose the button, timer should start and monitoring should start
+
     }
 
     fun pauseSession() {
-        //todo when user taps the screen
+
     }
 
     fun resumeSession() {
-        Log.d("LAZA", "RESUME SESSION")
+
     }
 
     fun cancelSession() {
-        Log.d("LAZA", "CANCEL SESSION")
+
+    }
+
+
+    companion object {
+        val SECONDS = 60
+        val MILISECONDS = 1000
     }
 }
