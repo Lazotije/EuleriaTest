@@ -1,5 +1,6 @@
 package com.example.euleriatask.ui.fragment
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,6 +10,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -20,6 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.euleriatask.R
@@ -32,7 +36,14 @@ import com.example.euleriatask.ui.widgets.CustomRoundedButton
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun PauseDialogFragment(navController: NavController, viewModel: SelectDurationViewModel = getViewModel()) {
+fun PauseDialogFragment(navController: NavController, openDialogCustom: MutableState<Boolean>) {
+    Dialog(onDismissRequest = { openDialogCustom.value = false}) {
+        PauseDialogFragmentUi(navController, openDialogCustom = openDialogCustom)
+    }
+}
+
+@Composable
+fun PauseDialogFragmentUi(navController: NavController, openDialogCustom: MutableState<Boolean>, viewModel: SelectDurationViewModel = getViewModel()) {
     Column(
         verticalArrangement = Arrangement.spacedBy(55.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -66,6 +77,7 @@ fun PauseDialogFragment(navController: NavController, viewModel: SelectDurationV
             CustomRoundedButton(text = stringResource(id = R.string.continue_button_txt),
                 color = darkBlue,
                 onClick = {
+                    openDialogCustom.value = false
                     viewModel.resumeSession()
                 })
             CustomRoundedButton(
@@ -79,9 +91,10 @@ fun PauseDialogFragment(navController: NavController, viewModel: SelectDurationV
     }
 }
 
+@SuppressLint("UnrememberedMutableState")
 @Preview(showBackground = true)
 @Composable
 fun PauseDialogPreview() {
     val navController = rememberNavController()
-    PauseDialogFragment(navController)
+    PauseDialogFragmentUi(navController, mutableStateOf(false))
 }

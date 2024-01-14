@@ -1,7 +1,10 @@
 package com.example.euleriatask.ui.fragment
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,6 +18,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,9 +40,11 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.euleriatask.R
 import com.example.euleriatask.ui.theme.black
+import com.example.euleriatask.ui.theme.whiteBg
 import com.example.euleriatask.ui.viewModel.SelectDurationViewModel
 import org.koin.androidx.compose.koinViewModel
 
+@SuppressLint("UnrememberedMutableState")
 @Composable
 fun MonitoringFragment(
     navController: NavController,
@@ -44,7 +52,13 @@ fun MonitoringFragment(
 ) {
 
     val heartAndOxy by viewModel.heartRateAndOxygen.collectAsState()
-//    Log.d("LAZA", "collect heart and oxy "  + " " + heartAndOxy)
+    var showPauseDialog by remember {
+        mutableStateOf(false)
+    }
+
+    if (showPauseDialog) {
+        PauseDialogFragment(navController = navController, openDialogCustom = mutableStateOf(true))
+    }
 
 
     Column(
@@ -52,7 +66,10 @@ fun MonitoringFragment(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxWidth()
-            .background(color = Color(0xFFEFF0F2))
+            .background(color = whiteBg)
+            .clickable {
+                showPauseDialog = true
+            }
     ) {
 
         //upper row
@@ -195,7 +212,7 @@ fun MonitoringFragment(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(643.dp)
-                .padding(bottom = 88.dp, start = 45.dp,end = 45.dp)
+                .padding(bottom = 88.dp, start = 45.dp, end = 45.dp)
                 .align(Alignment.CenterHorizontally),
             contentScale = ContentScale.Crop
         )
