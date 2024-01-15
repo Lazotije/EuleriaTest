@@ -1,4 +1,4 @@
-package com.example.euleriatask.ui.fragment
+package com.example.euleriatask.ui.fragment.dialog
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background

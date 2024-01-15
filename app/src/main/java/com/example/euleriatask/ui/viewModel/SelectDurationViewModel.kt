@@ -1,9 +1,11 @@
 package com.example.euleriatask.ui.viewModel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.euleriatask.data.model.HeartRateOxygenPair
 import com.example.euleriatask.data.repository.MonitoringRepo
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -13,12 +15,11 @@ class SelectDurationViewModel(private val monitoringRepo: MonitoringRepo) : View
     private val _heartRateAndOxygen = MutableStateFlow<HeartRateOxygenPair?>(null)
     val heartRateAndOxygen: StateFlow<HeartRateOxygenPair?> = _heartRateAndOxygen
 
-    init {
-        startMonitoring()
-    }
+    private var monitoringJob: Job? = null
 
+    
     private fun startMonitoring() {
-        viewModelScope.launch {
+        monitoringJob = viewModelScope.launch {
             monitoringRepo.getHeartRateAndOxygenLevel().collect {
                 _heartRateAndOxygen.value = it
             }
@@ -26,19 +27,25 @@ class SelectDurationViewModel(private val monitoringRepo: MonitoringRepo) : View
     }
 
     fun startSession(minutes: Int) {
-
+        Log.d("LAZA", "POCINJE SESIJA OD $minutes minuta" )
+        monitoringJob = viewModelScope.launch {
+            monitoringRepo.getHeartRateAndOxygenLevel().collect {
+                _heartRateAndOxygen.value = it
+            }
+        }
     }
 
     fun pauseSession() {
-
+        monitoringJob?.cancel()
     }
 
     fun resumeSession() {
-
+        startMonitoring()
     }
 
     fun cancelSession() {
-
+        monitoringJob?.cancel()
+        _heartRateAndOxygen.value = null
     }
 
 

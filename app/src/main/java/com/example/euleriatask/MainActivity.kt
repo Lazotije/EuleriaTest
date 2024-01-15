@@ -12,12 +12,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.euleriatask.ui.fragment.MonitoringFragment
 import com.example.euleriatask.ui.fragment.SelectDurationFragment
 import com.example.euleriatask.ui.theme.EuleriaTaskTheme
+import com.example.euleriatask.ui.utiils.Screen
 import com.example.euleriatask.ui.utiils.Utils
 
 
@@ -45,13 +48,15 @@ class MainActivity : ComponentActivity() {
         NavHost(navController = navController, startDestination = Utils.FIRST_SCREEN_ROUTE) {
 
             //Select duration fragment
-            composable(Utils.FIRST_SCREEN_ROUTE) {
+            composable(Screen.SelectDurationScreen.route) {
                 SelectDurationFragment(navController)
             }
 
             //Monitoring fragment
-            composable(Utils.MONITORING_SCREEN_ROUTE) {
-                MonitoringFragment(navController)
+            composable(Screen.MonitoringScreen.route + "/{minutes}",
+                arguments = listOf(navArgument(Utils.MINUTES) { type = NavType.IntType })
+            ) { backStackEntry ->
+                MonitoringFragment(navController, backStackEntry)
             }
         }
     }

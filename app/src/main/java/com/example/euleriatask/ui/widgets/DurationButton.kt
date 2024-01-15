@@ -1,6 +1,5 @@
 package com.example.euleriatask.ui.widgets
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -83,6 +82,5 @@ fun DurationButton(duration: Int, onClick: (Int) -> Unit) {
 @Composable
 fun DurationButtonPreview() {
     DurationButton(duration = 3, onClick = {
-        Log.d("EULERIA_TEST", "KLIK NA POZICIJU " + it)
     })
 }

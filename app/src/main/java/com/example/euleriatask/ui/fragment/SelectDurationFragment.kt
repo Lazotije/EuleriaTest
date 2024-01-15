@@ -1,6 +1,5 @@
 package com.example.euleriatask.ui.fragment
 
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,16 +23,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.euleriatask.R
 import com.example.euleriatask.ui.theme.black
-import com.example.euleriatask.ui.utiils.Utils
-import com.example.euleriatask.ui.viewModel.SelectDurationViewModel
+import com.example.euleriatask.ui.utiils.Screen
 import com.example.euleriatask.ui.widgets.DurationButton
-import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
 fun SelectDurationFragment(
     navController: NavController,
-    viewModel: SelectDurationViewModel = koinViewModel()
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(113.dp, Alignment.CenterVertically),
@@ -56,12 +52,12 @@ fun SelectDurationFragment(
                 textAlign = TextAlign.Center,
             )
         )
-        DurationButtonsRow(navController, viewModel)
+        DurationButtonsRow(navController)
     }
 }
 
 @Composable
-fun DurationButtonsRow(navController: NavController, viewModel: SelectDurationViewModel) {
+fun DurationButtonsRow(navController: NavController) {
     Row(
         Modifier
             .fillMaxWidth()
@@ -70,8 +66,8 @@ fun DurationButtonsRow(navController: NavController, viewModel: SelectDurationVi
         verticalAlignment = Alignment.Top,
     ) {
         for (i in 1..5) {
-            DurationButton(i, onClick = {
-                navController.navigate(Utils.MONITORING_SCREEN_ROUTE)
+            DurationButton(i, onClick = { minutes ->
+                navController.navigate(Screen.MonitoringScreen.route +"/$minutes")
             })
         }
     }

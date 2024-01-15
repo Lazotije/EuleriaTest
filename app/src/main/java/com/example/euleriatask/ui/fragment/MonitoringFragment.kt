@@ -15,10 +15,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,15 +33,15 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.euleriatask.R
+import com.example.euleriatask.ui.fragment.dialog.PauseDialogFragment
 import com.example.euleriatask.ui.theme.black
 import com.example.euleriatask.ui.theme.whiteBg
+import com.example.euleriatask.ui.utiils.Utils
 import com.example.euleriatask.ui.viewModel.SelectDurationViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -47,28 +49,37 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun MonitoringFragment(
     navController: NavController,
+    navBackStackEntry: NavBackStackEntry,
     viewModel: SelectDurationViewModel = koinViewModel()
 ) {
+    val minutes = navBackStackEntry.arguments?.getInt(Utils.MINUTES) ?: 0
 
-    val heartAndOxy by viewModel.heartRateAndOxygen.collectAsState()
+    LaunchedEffect(true) {
+        viewModel.startSession(minutes)
+    }
+
     var showPauseDialog by remember {
         mutableStateOf(false)
     }
 
+    val heartAndOxy by rememberUpdatedState(newValue = viewModel.heartRateAndOxygen.collectAsState())
+
     if (showPauseDialog) {
+        viewModel.pauseSession()
+
         PauseDialogFragment(
             onDismiss = {
 
             },
 
             onNegativeClick = {
-                //todo cancel session
+                viewModel.cancelSession()
                 showPauseDialog = !showPauseDialog
                 navController.popBackStack()
             },
 
             onPositiveClick = {
-                //todo resume session
+                viewModel.resumeSession()
                 showPauseDialog = !showPauseDialog
             }
         )
@@ -144,7 +155,8 @@ fun MonitoringFragment(
                             .height(53.dp)
                     )
                     Text(
-                        text = "${heartAndOxy?.rate?.bpm} " + stringResource(id = R.string.bpm),
+
+                        text = "${heartAndOxy?.value?.rate?.bpm} " + stringResource(id = R.string.bpm),
                         style = TextStyle(
                             fontSize = 50.sp,
                             fontFamily = FontFamily(Font(R.font.poppins_bold)),
@@ -184,7 +196,7 @@ fun MonitoringFragment(
                         )
                     )
                     Text(
-                        text = "${heartAndOxy?.saturation?.percentage}" + "%",
+                        text = "${heartAndOxy?.value?.saturation?.percentage}" + "%",
                         style = TextStyle(
                             fontSize = 50.sp,
                             fontFamily = FontFamily(Font(R.font.poppins_bold)),
@@ -230,11 +242,4 @@ fun MonitoringFragment(
             contentScale = ContentScale.Crop
         )
     }
-}
-
-@Preview(showBackground = true, device = Devices.AUTOMOTIVE_1024p)
-@Composable
-fun MonitoringFragmentPreview() {
-    val navController = rememberNavController()
-    MonitoringFragment(navController = navController)
 }
