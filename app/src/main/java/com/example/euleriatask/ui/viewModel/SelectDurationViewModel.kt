@@ -1,9 +1,5 @@
 package com.example.euleriatask.ui.viewModel
 
-import android.os.CountDownTimer
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.euleriatask.data.model.HeartRateOxygenPair
@@ -17,11 +13,7 @@ class SelectDurationViewModel(private val monitoringRepo: MonitoringRepo) : View
     private val _heartRateAndOxygen = MutableStateFlow<HeartRateOxygenPair?>(null)
     val heartRateAndOxygen: StateFlow<HeartRateOxygenPair?> = _heartRateAndOxygen
 
-    private val _navigateEvent = MutableLiveData<Unit>()
-    val navigateEvent: LiveData<Unit> = _navigateEvent
-
     init {
-        Log.d("LAZA", "INIT SELECT DURATION VIEWMODELA")
         startMonitoring()
     }
 

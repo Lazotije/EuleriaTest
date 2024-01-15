@@ -1,7 +1,6 @@
 package com.example.euleriatask.ui.fragment
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -57,9 +56,23 @@ fun MonitoringFragment(
     }
 
     if (showPauseDialog) {
-        PauseDialogFragment(navController = navController, openDialogCustom = mutableStateOf(true))
-    }
+        PauseDialogFragment(
+            onDismiss = {
 
+            },
+
+            onNegativeClick = {
+                //todo cancel session
+                showPauseDialog = !showPauseDialog
+                navController.popBackStack()
+            },
+
+            onPositiveClick = {
+                //todo resume session
+                showPauseDialog = !showPauseDialog
+            }
+        )
+    }
 
     Column(
         verticalArrangement = Arrangement.spacedBy(113.dp, Alignment.CenterVertically),
@@ -168,7 +181,7 @@ fun MonitoringFragment(
                             fontFamily = FontFamily(Font(R.font.poppins_medium)),
                             fontWeight = FontWeight(500),
                             color = black,
-                            )
+                        )
                     )
                     Text(
                         text = "${heartAndOxy?.saturation?.percentage}" + "%",

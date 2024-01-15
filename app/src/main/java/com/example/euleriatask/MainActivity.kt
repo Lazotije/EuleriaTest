@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
@@ -17,8 +16,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.euleriatask.ui.fragment.MonitoringFragment
-import com.example.euleriatask.ui.fragment.PauseDialogFragment
-import com.example.euleriatask.ui.fragment.PauseDialogFragmentUi
 import com.example.euleriatask.ui.fragment.SelectDurationFragment
 import com.example.euleriatask.ui.theme.EuleriaTaskTheme
 import com.example.euleriatask.ui.utiils.Utils
@@ -55,11 +52,6 @@ class MainActivity : ComponentActivity() {
             //Monitoring fragment
             composable(Utils.MONITORING_SCREEN_ROUTE) {
                 MonitoringFragment(navController)
-            }
-
-            //Pause dialog fragment
-            composable(Utils.DIALOG_SCREEN_ROUTE) {
-                PauseDialogFragment(navController, mutableStateOf(false))
             }
         }
     }
