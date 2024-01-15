@@ -1,6 +1,8 @@
 package com.example.euleriatask.ui.fragment
 
 import android.annotation.SuppressLint
+import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -42,7 +44,7 @@ import com.example.euleriatask.ui.fragment.dialog.PauseDialogFragment
 import com.example.euleriatask.ui.theme.black
 import com.example.euleriatask.ui.theme.whiteBg
 import com.example.euleriatask.ui.utiils.Utils
-import com.example.euleriatask.ui.viewModel.SelectDurationViewModel
+import com.example.euleriatask.ui.viewModel.MonitoringViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @SuppressLint("UnrememberedMutableState")
@@ -50,12 +52,12 @@ import org.koin.androidx.compose.koinViewModel
 fun MonitoringFragment(
     navController: NavController,
     navBackStackEntry: NavBackStackEntry,
-    viewModel: SelectDurationViewModel = koinViewModel()
+    viewModel: MonitoringViewModel = koinViewModel()
 ) {
     val minutes = navBackStackEntry.arguments?.getInt(Utils.MINUTES) ?: 0
 
     LaunchedEffect(true) {
-        viewModel.startSession(minutes)
+        viewModel.startSession(minutes * 60)
     }
 
     var showPauseDialog by remember {
@@ -73,7 +75,7 @@ fun MonitoringFragment(
             },
 
             onNegativeClick = {
-                viewModel.cancelSession()
+                viewModel.dispose()
                 showPauseDialog = !showPauseDialog
                 navController.popBackStack()
             },
@@ -85,6 +87,13 @@ fun MonitoringFragment(
         )
     }
 
+    BackHandler(onBack = {
+        Log.d("LAZA", "HENDLANJE NA BACK")
+        viewModel.dispose()
+        navController.popBackStack()
+    })
+
+    /// UI
     Column(
         verticalArrangement = Arrangement.spacedBy(113.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -155,8 +164,7 @@ fun MonitoringFragment(
                             .height(53.dp)
                     )
                     Text(
-
-                        text = "${heartAndOxy?.value?.rate?.bpm} " + stringResource(id = R.string.bpm),
+                        text = "${heartAndOxy.value?.rate?.bpm ?: "N/A"} " + stringResource(id = R.string.bpm),
                         style = TextStyle(
                             fontSize = 50.sp,
                             fontFamily = FontFamily(Font(R.font.poppins_bold)),
@@ -196,7 +204,7 @@ fun MonitoringFragment(
                         )
                     )
                     Text(
-                        text = "${heartAndOxy?.value?.saturation?.percentage}" + "%",
+                        text = "${heartAndOxy.value?.saturation?.percentage ?: "N/A"}" + "%",
                         style = TextStyle(
                             fontSize = 50.sp,
                             fontFamily = FontFamily(Font(R.font.poppins_bold)),
