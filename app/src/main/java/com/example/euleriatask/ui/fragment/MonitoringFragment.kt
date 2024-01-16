@@ -74,6 +74,8 @@ fun MonitoringFragment(
     }
 
     val heartAndOxy by rememberUpdatedState(newValue = viewModel.heartRateAndOxygen.collectAsState())
+    val elapsedTime by viewModel.elapsedTime.collectAsState()
+
 
     if (showPauseDialog) {
         viewModel.pauseSession()
@@ -253,10 +255,57 @@ fun MonitoringFragment(
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(643.dp)
-                .padding(bottom = 88.dp, start = 45.dp, end = 45.dp)
+                .height(143.dp)
+                .padding(start = 45.dp, end = 45.dp)
                 .align(Alignment.CenterHorizontally),
             contentScale = ContentScale.Crop
         )
+
+
+        //time row
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 45.dp, end = 45.dp)
+        ) {
+
+            //elapsed time
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = elapsedTime,
+                    style = TextStyle(
+                        fontSize = 30.sp,
+                        fontFamily = FontFamily(Font(R.font.poppins_regular)),
+                        fontWeight = FontWeight(400),
+                        color = black
+                    )
+                )
+            }
+
+            //total time
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.End
+            ) {
+                Text(
+                    text = "$minutes " + stringResource(id = R.string.minute),
+                    style = TextStyle(
+                        fontSize = 30.sp,
+                        fontFamily = FontFamily(Font(R.font.poppins_regular)),
+                        fontWeight = FontWeight(400),
+                        color = black,
+                        textAlign = TextAlign.Right,
+                    )
+                )
+            }
+        }
     }
 }

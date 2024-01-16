@@ -1,7 +1,6 @@
 package com.example.euleriatask.ui.viewModel
 
 import android.os.CountDownTimer
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.euleriatask.data.model.HeartRateOxygenPair
@@ -20,13 +19,18 @@ class MonitoringViewModel(private val monitoringRepo: MonitoringRepo) : ViewMode
     private val _timerFinished = MutableStateFlow(false)
     val timerFinished: StateFlow<Boolean> = _timerFinished
 
+    private val _elapsedTime = MutableStateFlow("00:00")
+    val elapsedTime: StateFlow<String> = _elapsedTime
+
     private var monitoringJob: Job? = null
 
     private lateinit var countDownTimer: CountDownTimer
     private var remainingTime: Int = -1
+    private var elapsedSeconds: Int = 0
+    private var rememberElapsedSeconds: Int = 0
+
 
     fun startSession(remainingSeconds: Int) {
-        Log.d("LAZA", "POCINJE SESIJA OD $remainingSeconds sekundi")
 
         monitoringJob = viewModelScope.launch {
             monitoringRepo.getHeartRateAndOxygenLevel().collect {
@@ -36,12 +40,15 @@ class MonitoringViewModel(private val monitoringRepo: MonitoringRepo) : ViewMode
 
         countDownTimer = object : CountDownTimer(remainingSeconds * MILLISECONDS, MILLISECONDS) {
             override fun onTick(millisUntilFinished: Long) {
-                Log.d("LAZA", "PREOSTALO VREMENA " + millisUntilFinished / MILLISECONDS)
                 remainingTime = (millisUntilFinished / MILLISECONDS).toInt()
+                elapsedSeconds = rememberElapsedSeconds + (remainingSeconds - remainingTime)
+
+                val minutes = elapsedSeconds / 60
+                val seconds = elapsedSeconds % 60
+                _elapsedTime.value = String.format("%02d:%02d", minutes, seconds)
             }
 
             override fun onFinish() {
-                Log.d("LAZA", "ON FINISHED")
                 _timerFinished.value = true
             }
         }
@@ -49,13 +56,12 @@ class MonitoringViewModel(private val monitoringRepo: MonitoringRepo) : ViewMode
     }
 
     fun pauseSession() {
-        Log.d("LAZA", "PAUZIRAJ ")
         countDownTimer.cancel()
         monitoringJob?.cancel()
+        rememberElapsedSeconds = elapsedSeconds
     }
 
     fun resumeSession() {
-        Log.d("LAZA", "RESUME SESSION ")
         startSession(remainingTime)
     }
 

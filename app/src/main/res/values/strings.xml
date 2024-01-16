@@ -8,4 +8,5 @@
     <string name="bpm">BPM</string>
     <string name="heart_rate">HEART RATE</string>
     <string name="oxygen_saturation">OXYGEN SATURATION</string>
+    <string name="minute">min</string>
 </resources>
