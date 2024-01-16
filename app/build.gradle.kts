@@ -71,6 +71,7 @@ dependencies {
 
     //live data
     implementation("androidx.compose.runtime:runtime-livedata:1.5.4")
+    implementation(files("libs/MPAndroidChart-v3.0.1.jar"))
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

@@ -17,6 +17,9 @@ class MonitoringViewModel(private val monitoringRepo: MonitoringRepo) : ViewMode
     private val _heartRateAndOxygen = MutableStateFlow<HeartRateOxygenPair?>(null)
     val heartRateAndOxygen: StateFlow<HeartRateOxygenPair?> = _heartRateAndOxygen
 
+    private val _timerFinished = MutableStateFlow(false)
+    val timerFinished: StateFlow<Boolean> = _timerFinished
+
     private var monitoringJob: Job? = null
 
     private lateinit var countDownTimer: CountDownTimer
@@ -39,7 +42,7 @@ class MonitoringViewModel(private val monitoringRepo: MonitoringRepo) : ViewMode
 
             override fun onFinish() {
                 Log.d("LAZA", "ON FINISHED")
-                countDownTimer.cancel()
+                _timerFinished.value = true
             }
         }
         countDownTimer.start()
