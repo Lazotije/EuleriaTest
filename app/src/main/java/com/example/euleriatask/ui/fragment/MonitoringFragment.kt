@@ -46,6 +46,8 @@ import com.example.euleriatask.ui.theme.black
 import com.example.euleriatask.ui.theme.whiteBg
 import com.example.euleriatask.ui.utiils.Utils
 import com.example.euleriatask.ui.viewModel.MonitoringViewModel
+import com.example.euleriatask.ui.widgets.EuleriaLineChart
+import com.github.mikephil.charting.data.Entry
 import kotlinx.coroutines.flow.collect
 import org.koin.androidx.compose.koinViewModel
 
@@ -75,6 +77,7 @@ fun MonitoringFragment(
 
     val heartAndOxy by rememberUpdatedState(newValue = viewModel.heartRateAndOxygen.collectAsState())
     val elapsedTime by viewModel.elapsedTime.collectAsState()
+    val entryListUpdated by rememberUpdatedState(newValue = viewModel.entryListUpdated.collectAsState())
 
 
     if (showPauseDialog) {
@@ -249,17 +252,8 @@ fun MonitoringFragment(
             }
         }
 
-        //todo here graph goes
-        Image(
-            painter = painterResource(id = R.drawable.ic_launcher_foreground),
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(143.dp)
-                .padding(start = 45.dp, end = 45.dp)
-                .align(Alignment.CenterHorizontally),
-            contentScale = ContentScale.Crop
-        )
+        //graph
+        EuleriaLineChart(entryListUpdated)
 
 
         //time row

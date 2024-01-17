@@ -1,69 +1,70 @@
 package com.example.euleriatask.ui.widgets
 
-import android.content.Context
 import android.graphics.Color
-import androidx.compose.foundation.layout.fillMaxSize
+import android.util.Log
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.Recomposer
+import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import kotlinx.coroutines.delay
 
 
 @Composable
-fun EuleriaLineChart(newEntry: Entry) {
+fun EuleriaLineChart(entries: State<List<Entry>>) {
     val lineChart = LineChart(LocalContext.current)
 
+    if(entries.value.isEmpty()) {
+        Log.d("LAZA", "ENTRIES JE PRAZAN")
+        return
+    } else {
+        Log.d("LAZA", "ENTRIES VALUE " + entries.value)
+    }
 
-    // Dodajte podatke u lineChart
-//    val entries = listOf(
-//        Entry(0f, 10f),
-//        Entry(1f, 20f),
-//        Entry(2f, 15f),
-//        Entry(3f, 15f),
-//        Entry(4f, 15f),
-//        Entry(5f, 15f),
-//        Entry(6f, 15f),
-//        Entry(7f, 10f),
-//        Entry(8f, 20f),
-//        Entry(9f, 15f),
-//        Entry(10f, 15f),
-//        Entry(11f, 15f),
-//        Entry(12f, 15f),
-//        Entry(13f, 15f)
-        // Dodajte više tačaka prema potrebi
-//    )
 
-    val entries: MutableList<Entry> = mutableListOf()
-    entries.add(newEntry)
 
-    val dataSet = LineDataSet(entries, "Label")
-    dataSet.color = Color.BLUE
-    dataSet.valueTextColor = Color.BLACK
 
-    val lineData = LineData(dataSet)
-    lineChart.data = lineData
+
+
+
 
     // Postavite ostale opcije grafikona po potrebi
     val description = Description()
     description.text = "Ovo je opis grafikona"
     lineChart.description = description
 
+    // Postavite opsege za X i Y ose
+    lineChart.xAxis.axisMinimum = 0f
+    lineChart.xAxis.axisMaximum = 60f
+
+    lineChart.axisLeft.axisMinimum = 0f
+    lineChart.axisLeft.axisMaximum = 20f
+
     AndroidView(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(250.dp)
+            .padding(start = 45.dp, end = 45.dp)
+
+        ,
         factory = { lineChart }
     ) { androidView ->
-        androidView.animateX(1000)
+
+        val dataSet = LineDataSet(entries.value, "Label")
+        dataSet.color = Color.BLUE
+        dataSet.valueTextColor = Color.BLACK
+
+        val lineData = LineData(dataSet)
+        androidView.data = lineData
+        androidView.invalidate()
     }
 }

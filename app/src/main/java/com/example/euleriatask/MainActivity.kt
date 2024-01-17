@@ -2,7 +2,6 @@ package com.example.euleriatask
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Handler
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,9 +22,6 @@ import com.example.euleriatask.ui.fragment.SelectDurationFragment
 import com.example.euleriatask.ui.theme.EuleriaTaskTheme
 import com.example.euleriatask.ui.utiils.Screen
 import com.example.euleriatask.ui.utiils.Utils
-import com.example.euleriatask.ui.widgets.EuleriaLineChart
-import com.github.mikephil.charting.data.Entry
-import kotlinx.coroutines.delay
 
 
 class MainActivity : ComponentActivity() {
@@ -54,7 +50,6 @@ class MainActivity : ComponentActivity() {
             //Select duration fragment
             composable(Screen.SelectDurationScreen.route) {
                 SelectDurationFragment(navController)
-//                EuleriaLineChart(Entry(1f, 20f))
             }
 
             //Monitoring fragment
