@@ -12,6 +12,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.viewinterop.AndroidView
 import com.example.euleriatask.R
 import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
@@ -97,6 +98,19 @@ fun EuleriaLineChart(
         //data for the plot
         val lineData = LineData(heartRateDataSet, saturationDataSet)
         androidView.data = lineData
+
+        val limitLine = LimitLine(heartRateEntries.value.last().x, "")
+        androidView.xAxis.addLimitLine((limitLine).apply {
+            lineColor = Color.BLACK
+            lineWidth = 2f
+        })
+
+        androidView.xAxis.apply {
+            removeAllLimitLines()
+            addLimitLine(limitLine)
+            setDrawLimitLinesBehindData(true)
+        }
+
         androidView.invalidate()
     }
 }
