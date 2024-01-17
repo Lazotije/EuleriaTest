@@ -1,7 +1,6 @@
 package com.example.euleriatask.ui.fragment
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -45,10 +43,9 @@ import com.example.euleriatask.ui.fragment.dialog.PauseDialogFragment
 import com.example.euleriatask.ui.theme.black
 import com.example.euleriatask.ui.theme.whiteBg
 import com.example.euleriatask.ui.utiils.Utils
+import com.example.euleriatask.ui.utiils.extensions.toSeconds
 import com.example.euleriatask.ui.viewModel.MonitoringViewModel
 import com.example.euleriatask.ui.widgets.EuleriaLineChart
-import com.github.mikephil.charting.data.Entry
-import kotlinx.coroutines.flow.collect
 import org.koin.androidx.compose.koinViewModel
 
 @SuppressLint("UnrememberedMutableState")
@@ -61,7 +58,7 @@ fun MonitoringFragment(
     val minutes = navBackStackEntry.arguments?.getInt(Utils.MINUTES) ?: 0
 
     LaunchedEffect(true) {
-        viewModel.startSession(minutes * 60)
+        viewModel.startSession(minutes.toSeconds())
 
         viewModel.timerFinished.collect() {
             if (it) {
@@ -77,7 +74,8 @@ fun MonitoringFragment(
 
     val heartAndOxy by rememberUpdatedState(newValue = viewModel.heartRateAndOxygen.collectAsState())
     val elapsedTime by viewModel.elapsedTime.collectAsState()
-    val entryListUpdated by rememberUpdatedState(newValue = viewModel.entryListUpdated.collectAsState())
+    val heartRateEntryListUpdated by rememberUpdatedState(newValue = viewModel.heartRateEntryListUpdated.collectAsState())
+    val saturationEntryListUpdated by rememberUpdatedState(newValue = viewModel.saturationEntryListUpdated.collectAsState())
 
 
     if (showPauseDialog) {
@@ -102,7 +100,6 @@ fun MonitoringFragment(
     }
 
     BackHandler(onBack = {
-        Log.d("LAZA", "HENDLANJE NA BACK")
         viewModel.dispose()
         navController.popBackStack()
     })
@@ -253,8 +250,13 @@ fun MonitoringFragment(
         }
 
         //graph
-        EuleriaLineChart(entryListUpdated)
-
+        EuleriaLineChart(
+            heartRateEntryListUpdated,
+            saturationEntryListUpdated,
+            minutes.toSeconds().toFloat()
+        ) {
+            showPauseDialog = true
+        }
 
         //time row
         Row(

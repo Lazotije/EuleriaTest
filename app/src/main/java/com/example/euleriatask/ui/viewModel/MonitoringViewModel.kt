@@ -1,17 +1,16 @@
 package com.example.euleriatask.ui.viewModel
 
 import android.os.CountDownTimer
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.euleriatask.data.model.HeartRateOxygenPair
 import com.example.euleriatask.data.repository.MonitoringRepo
+import com.example.euleriatask.ui.utiils.extensions.toMilliseconds
 import com.github.mikephil.charting.data.Entry
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import java.util.Random
 
 
 class MonitoringViewModel(private val monitoringRepo: MonitoringRepo) : ViewModel() {
@@ -25,8 +24,11 @@ class MonitoringViewModel(private val monitoringRepo: MonitoringRepo) : ViewMode
     private val _elapsedTime = MutableStateFlow("00:00")
     val elapsedTime: StateFlow<String> = _elapsedTime
 
-    private val _entryListUpdated = MutableStateFlow(emptyList<Entry>())
-    val entryListUpdated: StateFlow<List<Entry>> = _entryListUpdated
+    private val _heartRateEntryListUpdated = MutableStateFlow(emptyList<Entry>())
+    val heartRateEntryListUpdated: StateFlow<List<Entry>> = _heartRateEntryListUpdated
+
+    private val _saturationEntryListUpdated = MutableStateFlow(emptyList<Entry>())
+    val saturationEntryListUpdated: StateFlow<List<Entry>> = _saturationEntryListUpdated
 
     private var monitoringJob: Job? = null
 
@@ -35,47 +37,25 @@ class MonitoringViewModel(private val monitoringRepo: MonitoringRepo) : ViewMode
     private var elapsedSeconds: Int = 0
     private var rememberElapsedSeconds: Int = 0
 
-
-    private val entryList: MutableList<Entry> = mutableListOf()
-
-    var indexX = 0
-    var i = 0
-    var j = 0
-
     fun startSession(remainingSeconds: Int) {
 
         monitoringJob = viewModelScope.launch {
             monitoringRepo.getHeartRateAndOxygenLevel().collect {
                 _heartRateAndOxygen.value = it
 
-                Log.d("LAZA", "COLLECT " + it)
-//                entryList.add(Entry(it.rate.bpm.toFloat(), remainingSeconds.toFloat()))
-//
-//                when(indexX%2) {
-//                    0 -> {
-//                        entryList.add(Entry((0+i++).toFloat(), 10f))
-//                    }
-//                    1 -> {
-//                        entryList.add(Entry((1+j++).toFloat(), 20f))
-//                    }
-//                }
-//
-//                _entryListUpdated.value = entryList
+                _heartRateEntryListUpdated.value =
+                    _heartRateEntryListUpdated.value.toMutableList().apply {
+                        add(Entry(elapsedSeconds.toFloat(), it.rate.bpm.toFloat()))
+                    }
 
-                val newEntryValue = if (_entryListUpdated.value.size % 2 == 0) {
-                    10f
-                } else {
-                    20f
-                }
-
-                val newEntry = Entry(_entryListUpdated.value.size.toFloat(), newEntryValue)
-                _entryListUpdated.value = _entryListUpdated.value.toMutableList().apply {
-                    add(newEntry)
-                }
+                _saturationEntryListUpdated.value =
+                    _saturationEntryListUpdated.value.toMutableList().apply {
+                        add(Entry(elapsedSeconds.toFloat(), it.saturation.percentage.toFloat()))
+                    }
             }
         }
 
-        countDownTimer = object : CountDownTimer(remainingSeconds * MILLISECONDS, MILLISECONDS) {
+        countDownTimer = object : CountDownTimer(remainingSeconds.toMilliseconds(), MILLISECONDS) {
             override fun onTick(millisUntilFinished: Long) {
                 remainingTime = (millisUntilFinished / MILLISECONDS).toInt()
                 elapsedSeconds = rememberElapsedSeconds + (remainingSeconds - remainingTime)
