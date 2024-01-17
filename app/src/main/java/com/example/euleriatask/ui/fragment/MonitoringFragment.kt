@@ -108,7 +108,7 @@ fun MonitoringFragment(
     Column(
         verticalArrangement = Arrangement.spacedBy(
             dimensionResource(
-                id = R.dimen.spacing_113
+                id = R.dimen.spacing_50
             ), Alignment.CenterVertically
         ),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -137,7 +137,8 @@ fun MonitoringFragment(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_heart_rate),
@@ -199,12 +200,13 @@ fun MonitoringFragment(
                 Column(
                     modifier = Modifier
                         .fillMaxHeight()
-                        .fillMaxWidth()
                         .padding(
                             dimensionResource(
                                 id = R.dimen.padding_18
                             )
-                        )
+                        ),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.Start
                 ) {
                     Text(
                         text = stringResource(id = R.string.heart_rate),
@@ -219,16 +221,7 @@ fun MonitoringFragment(
                             color = black
                         ),
                         modifier = Modifier
-                            .width(
-                                dimensionResource(
-                                    id = R.dimen.hr_text_width
-                                )
-                            )
-                            .height(
-                                dimensionResource(
-                                    id = R.dimen.hr_text_height
-                                )
-                            )
+                            .padding(top = dimensionResource(id = R.dimen.spacing_16))
                     )
                     Text(
                         text = "${heartAndOxy.value?.rate?.bpm ?: "N/A"} " + stringResource(id = R.string.bpm),

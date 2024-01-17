@@ -14,7 +14,7 @@
     <dimen name="dp_180">180dp</dimen>
 
     <!--  Elueria chart  -->
-    <dimen name="chart_height">250dp</dimen>
+    <dimen name="chart_height">350dp</dimen>
     <dimen name="horizontal_padding">45dp</dimen>
 
     <!--    Duration button -->

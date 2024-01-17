@@ -38,7 +38,7 @@ fun EuleriaLineChart(
         xAxis.axisMinimum = 0f
         xAxis.axisMaximum = seconds
 
-        axisLeft.axisMinimum = 60f
+        axisLeft.axisMinimum = 40f
         axisLeft.axisMaximum = 181f
 
         //layout
