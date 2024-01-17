@@ -23,7 +23,6 @@ import com.example.euleriatask.ui.theme.EuleriaTaskTheme
 import com.example.euleriatask.ui.utiils.Screen
 import com.example.euleriatask.ui.utiils.Utils
 
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +52,8 @@ class MainActivity : ComponentActivity() {
             }
 
             //Monitoring fragment
-            composable(Screen.MonitoringScreen.route + "/{minutes}",
+            composable(
+                Screen.MonitoringScreen.route + "/{minutes}",
                 arguments = listOf(navArgument(Utils.MINUTES) { type = NavType.IntType })
             ) { backStackEntry ->
                 MonitoringFragment(navController, backStackEntry)

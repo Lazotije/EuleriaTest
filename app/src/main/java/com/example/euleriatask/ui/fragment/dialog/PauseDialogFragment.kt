@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -19,7 +20,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.euleriatask.R
@@ -49,16 +49,16 @@ fun PauseDialogFragmentUi(
     onPositiveClick: () -> Unit
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(55.dp, Alignment.CenterVertically),
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dp_55), Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .width(460.dp)
-            .height(355.dp)
-            .background(color = white, shape = RoundedCornerShape(size = 15.dp))
+            .width(dimensionResource(id = R.dimen.dialog_width))
+            .height(dimensionResource(id = R.dimen.dialog_height))
+            .background(color = white, shape = RoundedCornerShape(size = dimensionResource(id = R.dimen.dp_15)))
     ) {
         Text(
             modifier = Modifier
-                .width(344.dp)
+                .width(dimensionResource(id = R.dimen.pause_text_view_width))
                 .height(IntrinsicSize.Min),
             text = stringResource(id = R.string.pause),
             style = TextStyle(
@@ -72,11 +72,11 @@ fun PauseDialogFragmentUi(
         )
 
         Column(
-            verticalArrangement = Arrangement.spacedBy(40.dp, Alignment.Top),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dp_40), Alignment.Top),
             horizontalAlignment = Alignment.Start,
             modifier = Modifier
-                .width(350.dp)
-                .height(180.dp)
+                .width(dimensionResource(id = R.dimen.dp_350))
+                .height(dimensionResource(id = R.dimen.dp_180))
         ) {
             CustomRoundedButton(text = stringResource(id = R.string.continue_button_txt),
                 color = darkBlue,

@@ -9,7 +9,7 @@ import org.koin.dsl.module
 val appModule = module {
 
     //repo
-    single<MonitoringRepo> {MonitoringRepoImpl()}
+    single<MonitoringRepo> { MonitoringRepoImpl() }
 
     //vm
     viewModel { MonitoringViewModel(get()) }

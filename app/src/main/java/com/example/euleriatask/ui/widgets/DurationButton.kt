@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -21,7 +22,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.euleriatask.R
 import com.example.euleriatask.ui.theme.black
@@ -32,25 +32,75 @@ import com.example.euleriatask.ui.theme.white
 fun DurationButton(duration: Int, onClick: (Int) -> Unit) {
     Box(
         modifier = Modifier
-            .border(width = 8.dp, color = buttonBlue, shape = RoundedCornerShape(size = 15.dp))
-            .padding(4.dp)
-            .width(150.dp)
-            .height(180.dp)
-            .background(color = white, shape = RoundedCornerShape(size = 15.dp))
-            .padding(start = 10.dp, top = 10.dp, end = 10.dp, bottom = 10.dp)
+            .border(
+                width = dimensionResource(
+                    id = R.dimen.border_width
+                ), color = buttonBlue, shape = RoundedCornerShape(
+                    size = dimensionResource(
+                        id = R.dimen.dp_15
+                    )
+                )
+            )
+            .padding(
+                dimensionResource(
+                    id = R.dimen.padding
+                )
+            )
+            .width(
+                dimensionResource(
+                    id = R.dimen.dp_150
+                )
+            )
+            .height(
+                dimensionResource(
+                    id = R.dimen.dp_180
+                )
+            )
+            .background(
+                color = white, shape = RoundedCornerShape(
+                    size = dimensionResource(
+                        id = R.dimen.dp_15
+                    )
+                )
+            )
+            .padding(
+                dimensionResource(
+                    id = R.dimen.padding_10
+                )
+            )
             .clickable { onClick(duration) },
     ) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(20.dp, Alignment.CenterVertically),
+            verticalArrangement = Arrangement.spacedBy(
+                dimensionResource(
+                    id = R.dimen.dp_20
+                ), Alignment.CenterVertically
+            ),
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .width(150.dp)
-                .height(180.dp)
+                .width(
+                    dimensionResource(
+                        id = R.dimen.dp_150
+                    )
+                )
+                .height(
+                    dimensionResource(
+                        id = R.dimen.dp_180
+                    )
+                )
         ) {
             Text(
                 modifier = Modifier
-                    .width(45.dp)
-                    .height(80.dp),
+                    .width(
+                        dimensionResource(
+                            id = R.dimen.duration_text_width
+                        )
+                    )
+                    .height(
+                        dimensionResource(
+                            id = R.dimen.duration_text_height
+                        )
+                    ),
                 text = duration.toString(),
                 style = TextStyle(
                     fontSize = 72.sp,
@@ -63,8 +113,16 @@ fun DurationButton(duration: Int, onClick: (Int) -> Unit) {
 
             Text(
                 modifier = Modifier
-                    .width(104.dp)
-                    .height(36.dp),
+                    .width(
+                        dimensionResource(
+                            id = R.dimen.minutes_text_width
+                        )
+                    )
+                    .height(
+                        dimensionResource(
+                            id = R.dimen.minutes_text_height
+                        )
+                    ),
                 text = stringResource(id = R.string.minutes),
                 style = TextStyle(
                     fontSize = 24.sp,

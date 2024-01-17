@@ -11,12 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.euleriatask.R
 import com.example.euleriatask.ui.theme.white
@@ -25,9 +25,23 @@ import com.example.euleriatask.ui.theme.white
 fun CustomRoundedButton(text: String, color: Color, onClick: () -> Unit) {
     Box(
         modifier = Modifier
-            .width(350.dp)
-            .height(70.dp)
-            .background(color = color, shape = RoundedCornerShape(size = 8.dp))
+            .width(
+                dimensionResource(
+                    id = R.dimen.rounded_button_width
+                )
+            )
+            .height(
+                dimensionResource(
+                    id = R.dimen.rounded_button_height
+                )
+            )
+            .background(
+                color = color, shape = RoundedCornerShape(
+                    size = dimensionResource(
+                        id = R.dimen.rounded_corner_8
+                    )
+                )
+            )
             .clickable { onClick() },
         contentAlignment = Alignment.Center,
     ) {

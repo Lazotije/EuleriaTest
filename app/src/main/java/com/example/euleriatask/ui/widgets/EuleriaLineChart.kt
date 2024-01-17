@@ -1,8 +1,6 @@
 package com.example.euleriatask.ui.widgets
 
 import android.graphics.Color
-import android.util.Log
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -10,8 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.viewinterop.AndroidView
+import com.example.euleriatask.R
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -62,8 +61,11 @@ fun EuleriaLineChart(
     AndroidView(
         modifier = Modifier
             .fillMaxWidth()
-            .height(250.dp)
-            .padding(start = 45.dp, end = 45.dp),
+            .height(dimensionResource(id = R.dimen.chart_height))
+            .padding(
+                start = dimensionResource(id = R.dimen.horizontal_padding),
+                end = dimensionResource(id = R.dimen.horizontal_padding)
+            ),
         factory = { lineChart }
     ) { androidView ->
 

@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -34,7 +35,6 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
@@ -60,7 +60,7 @@ fun MonitoringFragment(
     LaunchedEffect(true) {
         viewModel.startSession(minutes.toSeconds())
 
-        viewModel.timerFinished.collect() {
+        viewModel.timerFinished.collect {
             if (it) {
                 viewModel.dispose()
                 navController.popBackStack()
@@ -106,7 +106,11 @@ fun MonitoringFragment(
 
     /// UI
     Column(
-        verticalArrangement = Arrangement.spacedBy(113.dp, Alignment.CenterVertically),
+        verticalArrangement = Arrangement.spacedBy(
+            dimensionResource(
+                id = R.dimen.spacing_113
+            ), Alignment.CenterVertically
+        ),
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxWidth()
@@ -120,7 +124,11 @@ fun MonitoringFragment(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(200.dp),
+                .height(
+                    dimensionResource(
+                        id = R.dimen.upper_row_height
+                    )
+                ),
         ) {
 
 
@@ -136,27 +144,67 @@ fun MonitoringFragment(
                     contentDescription = "heart rate image",
                     contentScale = ContentScale.None,
                     modifier = Modifier
-                        .padding(4.dp)
-                        .width(112.5.dp)
-                        .height(110.dp)
+                        .padding(
+                            dimensionResource(
+                                id = R.dimen.padding
+                            )
+                        )
+                        .width(
+                            dimensionResource(
+                                id = R.dimen.hr_image_width
+                            )
+                        )
+                        .height(
+                            dimensionResource(
+                                id = R.dimen.hr_image_height
+                            )
+                        )
                 )
-                Spacer(modifier = Modifier.width(16.dp))
+                Spacer(
+                    modifier = Modifier.width(
+                        dimensionResource(
+                            id = R.dimen.spacing_16
+                        )
+                    )
+                )
                 Image(
                     modifier = Modifier
-                        .padding(1.71552.dp)
-                        .width(81.dp)
-                        .height(71.dp),
+                        .padding(
+                            dimensionResource(
+                                id = R.dimen.heart_image_padding
+                            )
+                        )
+                        .width(
+                            dimensionResource(
+                                id = R.dimen.heart_image_width
+                            )
+                        )
+                        .height(
+                            dimensionResource(
+                                id = R.dimen.heart_image_height
+                            )
+                        ),
                     painter = painterResource(id = R.drawable.ic_heart),
                     contentDescription = "heart image",
                     contentScale = ContentScale.None,
 
                     )
-                Spacer(modifier = Modifier.width(16.dp))
+                Spacer(
+                    modifier = Modifier.width(
+                        dimensionResource(
+                            id = R.dimen.spacing_16
+                        )
+                    )
+                )
                 Column(
                     modifier = Modifier
                         .fillMaxHeight()
                         .fillMaxWidth()
-                        .padding(18.dp)
+                        .padding(
+                            dimensionResource(
+                                id = R.dimen.padding_18
+                            )
+                        )
                 ) {
                     Text(
                         text = stringResource(id = R.string.heart_rate),
@@ -171,8 +219,16 @@ fun MonitoringFragment(
                             color = black
                         ),
                         modifier = Modifier
-                            .width(204.dp)
-                            .height(53.dp)
+                            .width(
+                                dimensionResource(
+                                    id = R.dimen.hr_text_width
+                                )
+                            )
+                            .height(
+                                dimensionResource(
+                                    id = R.dimen.hr_text_height
+                                )
+                            )
                     )
                     Text(
                         text = "${heartAndOxy.value?.rate?.bpm ?: "N/A"} " + stringResource(id = R.string.bpm),
@@ -183,8 +239,16 @@ fun MonitoringFragment(
                             color = black
                         ),
                         modifier = Modifier
-                            .width(268.dp)
-                            .height(108.dp)
+                            .width(
+                                dimensionResource(
+                                    id = R.dimen.hr_oxy_text_width
+                                )
+                            )
+                            .height(
+                                dimensionResource(
+                                    id = R.dimen.hr_oxy_text_height
+                                )
+                            )
                     )
                 }
             }
@@ -201,7 +265,11 @@ fun MonitoringFragment(
                 Column(
                     modifier = Modifier
                         .fillMaxHeight()
-                        .padding(18.dp),
+                        .padding(
+                            dimensionResource(
+                                id = R.dimen.padding_18
+                            )
+                        ),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.End
                 ) {
@@ -225,26 +293,62 @@ fun MonitoringFragment(
                         )
                     )
                 }
-                Spacer(modifier = Modifier.width(16.dp))
+                Spacer(
+                    modifier = Modifier.width(
+                        dimensionResource(
+                            id = R.dimen.spacing_16
+                        )
+                    )
+                )
                 Image(
                     painter = painterResource(id = R.drawable.ic_oxy),
                     contentDescription = "image oxy",
                     contentScale = ContentScale.None,
                     modifier = Modifier
-                        .padding(1.71552.dp)
-                        .width(69.dp)
-                        .height(69.dp)
+                        .padding(
+                            dimensionResource(
+                                id = R.dimen.oxy_image_padding
+                            )
+                        )
+                        .width(
+                            dimensionResource(
+                                id = R.dimen.oxy_image_width
+                            )
+                        )
+                        .height(
+                            dimensionResource(
+                                id = R.dimen.oxy_image_height
+                            )
+                        )
 
                 )
-                Spacer(modifier = Modifier.width(16.dp))
+                Spacer(
+                    modifier = Modifier.width(
+                        dimensionResource(
+                            id = R.dimen.spacing_16
+                        )
+                    )
+                )
                 Image(
                     painter = painterResource(id = R.drawable.ic_oxy_line),
                     contentDescription = "oxygen line image",
                     contentScale = ContentScale.None,
                     modifier = Modifier
-                        .padding(4.dp)
-                        .width(115.dp)
-                        .height(79.5.dp)
+                        .padding(
+                            dimensionResource(
+                                id = R.dimen.padding
+                            )
+                        )
+                        .width(
+                            dimensionResource(
+                                id = R.dimen.oxy_line_image_width
+                            )
+                        )
+                        .height(
+                            dimensionResource(
+                                id = R.dimen.oxy_line_image_height
+                            )
+                        )
                 )
             }
         }
@@ -262,7 +366,13 @@ fun MonitoringFragment(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 45.dp, end = 45.dp)
+                .padding(
+                    start = dimensionResource(
+                        id = R.dimen.horizontal_padding
+                    ), end = dimensionResource(
+                        id = R.dimen.horizontal_padding
+                    )
+                )
         ) {
 
             //elapsed time
